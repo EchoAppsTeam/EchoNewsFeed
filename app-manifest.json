@@ -1,5 +1,5 @@
 {
-	"id": "Echo.NewsFeed",
+	"id": "echo-apps-newsfeed-dev",
 	"name": "News Feed (dev)",
 	"description": "Echo news feed reference app",
 	"app_version": "1.0.0",
