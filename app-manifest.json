@@ -1,0 +1,37 @@
+{
+	"id": "Echo.NewsFeed",
+	"name": "News Feed (dev)",
+	"description": "Echo news feed reference app",
+	"app_version": "1.0.0",
+	"cloudapp_protocol_version": "1.0.0",
+	"developer": {
+		"id": "echo",
+		"name": "Echo",
+		"url": "http://www.aboutecho.com",
+		"email": "solutions@aboutecho.com",
+		"icon": "http://cdn.echoenabled.com/images/echo.png"
+	},
+	"dashboards": [{
+		"id": "instances",
+		"title": "Instances",
+		"script": "{%=baseURL%}/dashboard.js",
+		"component": "Echo.Apps.NewsFeed.Dashboard",
+		"type": "instances"
+	}, {
+		"config": {
+			"instanceManager": {
+				"instance": {"useLoadingIcon": true}
+			},
+			"product": "{data:app.info}",
+			"instance": "{data:instance}",
+			"appkeys": "{data:apps.streamserver.appkeys}",
+			"janrainapps": "{data:apps.janrain.apps}",
+			"customer": "{data:customer}",
+			"domains": "{data:apps.streamserver.domains}"
+		}
+	}],
+	"client_widget": {
+		"component": "Echo.Apps.NewsFeed",
+		"script": "{%=baseURL%}/app.js"
+	}
+}

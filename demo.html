@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Echo Conversation v1.0 Demo</title>
+</head>
+
+<body>
+
+<script type="text/javascript" src="http://cdn.echoenabled.com/sdk/v3/loader.js"></script>
+
+<!--div class="echo-canvas" data-canvas-id="echo/fwsk5ns3sz" data-canvas-mode="dev" style="margin: 0px auto; width: 50%; max-width: 440px;"></div-->
+
+<script type="text/javascript">// Echo.Loader.init(); </script>
+
+<div id="container" style="margin: 0px auto; width: 50%; max-width: 440px;"></div>
+
+<script type="text/javascript">
+	Echo.Loader.initApplication({
+		"script": "{%=baseURL%}/app.js",
+		"component": "Echo.Apps.NewsFeed",
+		"backplane": {
+			"serverBaseURL": "https://api.echoenabled.com/v1",
+			"busName": "jskit"
+		},
+		"config": {
+			"target": document.getElementById("container"),
+			"targetURL": "http://echoplatform.com/test/conversations",
+			"dependencies": {
+				"Janrain": {"appId": "echo"},
+				"StreamServer": {"appkey": "echo.jssdk.demo.aboutecho.com"}
+			}
+		}
+	});
+</script>
+
+</body>
+</html>
