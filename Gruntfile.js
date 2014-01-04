@@ -17,17 +17,13 @@ module.exports = function(grunt) {
 	var sources = {
 		"js": [
 			"app.js",
-			"controls/*.js",
-			"plugins/*.js",
-			"dashboard.js",
-			"dashboard/*.js"
+			"dashboard.js"
 		],
 		"images": [
 			"images/**"
 		],
 		"demo": [
-			"demo.html",
-			"premoderation.html"
+			"demo.html"
 		]
 	};
 

@@ -1,7 +1,7 @@
 {
 	"version": 1,
 	"manifest": {
-		"id": "echo-apps-newsfeed-dev",
+		"id": "echo-apps-newsfeed",
 		"name": "News Feed (Beta)"
 	},
 	"baseURL": "//cdn.echoenabled.com/apps/echo/news-feed"
