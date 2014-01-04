@@ -118,6 +118,10 @@ newsFeed.renderers.newsFeed = function(element) {
 	return element;
 }
 newsFeed.css =
+	'.{class:postsTabs} .nav-pills { width: 100%; margin:0; }' +
+	'.{class:postsTabs} .nav li { display: table-cell; width: 1%; float: none; }' +
+	'.{class:postsTabs} .nav li a { text-align: center; border: 1px solid #CCC6C6; border-left: 0px; border-radius: 0px; margin: 2px 0px 2px 0px; }' +
+	'.{class:postsTabs} .nav li:first-child a { border-left: 1px solid #CCC6C6; }' +
 	'.{class:newsFeed} .echo-apps-conversations-streamHeader { display: none; }';
 Echo.App.create(newsFeed);
 
