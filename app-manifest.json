@@ -16,8 +16,7 @@
 		"title": "Instances",
 		"script": "{%=baseURL%}/dashboard.js",
 		"component": "Echo.Apps.NewsFeed.Dashboard",
-		"type": "instances"
-	}, {
+		"type": "instances",
 		"config": {
 			"instanceManager": {
 				"instance": {"useLoadingIcon": true}
