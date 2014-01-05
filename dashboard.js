@@ -28,6 +28,9 @@ dashboard.dependencies = [{
 }, {
 	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
 	"control": "Echo.DataServer.Controls.Pack"
+}, {
+	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
+	"control": "echo.apps.streamplus.instancedatasource"
 }];
 
 dashboard.vars = {
@@ -253,7 +256,7 @@ dashboard.vars = {
 				"component": "Checkbox",
 				"name": "resolveURLs",
 				"type": "boolean",
-				"default": false,
+				"default": true,
 				"config": {
 					"title": "Resolve URLs",
 					"desc": "If enabled, resolves URLs found in the comment body to rich attached content"
@@ -297,6 +300,20 @@ dashboard.config = {
 };
 
 dashboard.config.ecl = [{
+	"name": "targetURL",
+	"component": "Echo.Apps.MediaGallery.DataSourceGroup",
+	"type": "string",
+	"required": true,
+	"config": {
+		"title": "",
+		"labels": {
+			"dataserverBundleName": "Echo Stream+ Auto-Generated Bundle for {instanceName}"
+		},
+		"apiBaseURLs": {
+			"DataServer": "http://nds.echoenabled.com/api/"
+		}
+	}
+}, {
 	"component": "Group",
 	"name": "dependencies",
 	"type": "object",
@@ -324,7 +341,7 @@ dashboard.config.ecl = [{
 	}]
 }, {
 	"component": "Group",
-	"name": "conversations",
+	"name": "advanced",
 	"type": "object",
 	"config": {
 		"title": "Advanced"
@@ -476,7 +493,7 @@ dashboard.config.normalizer = {
 		};
 
 		return $.map(obj, function(field) {
-			return field.name !== "conversations"
+			return field.name !== "advanced"
 				? field
 				: $.extend({}, field, {
 					"items": $.map(field.items || {}, function(item) {
@@ -488,9 +505,9 @@ dashboard.config.normalizer = {
 };
 
 dashboard.init = function() {
-	var parent = $.proxy(this.parent, this);
-	this.config.set("ecl", this._prepareECL(this.config.get("ecl")));
-	this._requestData(function() {
+	var self = this, parent = $.proxy(this.parent, this);
+	this._fetchDataServerToken(function() {
+		self.config.set("ecl", self._prepareECL(self.config.get("ecl")));
 		parent();
 	});
 };
@@ -519,6 +536,7 @@ dashboard.methods._prepareECL = function(items) {
 			item.config = $.extend({
 				"instanceName": self.config.get("instance.name"),
 				"domains": self.config.get("domains"),
+				"apiToken": self.config.get("dataserverToken"),
 				"valueHandler": function() {
 					return self._assembleTargetURL();
 				}
@@ -557,6 +575,34 @@ dashboard.methods._prepareECL = function(items) {
 	})(items, "");
 };
 
+dashboard.methods._fetchDataServerToken = function(callback) {
+	var self = this;
+	Echo.AppServer.API.request({
+		"endpoint": "customer/{id}/subscriptions",
+		"id": this.config.get("customer").id,
+		"onData": function(response) {
+			var token = Echo.Utils.foldl("", response, function(subscription, acc) {
+				return subscription.product.name === "dataserver"
+					? subscription.extra.token
+					: acc;
+			});
+			if (token) {
+				self.config.set("dataserverToken", token);
+				callback.call(self);
+			} else {
+				self._displayError(
+					self.labels.get("failedToFetchToken", {
+						"reason": self.labels.get("dataserverSubscriptionNotFound")
+					})
+				);
+			}
+		},
+		"onError": function(response) {
+			self._displayError(self.labels.get("failedToFetchToken", {"reason": response.data.msg}));
+		}
+	}).send();
+};
+
 dashboard.methods._displayError = function(message) {
 	this.showMessage({
 		"type": "error",
@@ -575,32 +621,6 @@ dashboard.methods._assembleTargetURL = function() {
 	}
 
 	return targetURL;
-};
-
-dashboard.methods._requestData = function(callback) {
-	var self = this;
-	var customerId = this.config.get("data.customer.id");
-	var deferreds = [];
-	var request = this.config.get("request");
-
-	var requests = [{
-		"name": "appkeys",
-		"endpoint": "customer/" + customerId + "/appkeys"
-	}, {
-		"name": "janrainapps",
-		"endpoint": "customer/" + customerId + "/janrainapps"
-	}];
-	$.map(requests, function(req) {
-		var deferredId = deferreds.push($.Deferred()) - 1;
-		request({
-			"endpoint": req.endpoint,
-			"success": function(response) {
-				self.set(req.name, response);
-				deferreds[deferredId].resolve();
-			}
-		});
-	});
-	$.when.apply($, deferreds).done(callback);
 };
 
 Echo.AppServer.Dashboard.create(dashboard);

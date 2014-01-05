@@ -1,5 +1,7 @@
-(function($) {
+(function(jQuery) {
 "use strict";
+
+var $ = jQuery;
 
 if (Echo.App.isDefined("Echo.Apps.NewsFeed")) return;
 
@@ -7,6 +9,25 @@ var newsFeed = Echo.App.manifest("Echo.Apps.NewsFeed");
 
 newsFeed.config = {
 	"targetURL": "",
+	"tabs": [{
+		"id": "topPosts",
+		"active": true,
+		"visible": true,
+		"type": "tab",
+		"label": "Official"
+	}, {
+		"id": "topPosts",
+		"active": false,
+		"visible": true,
+		"type": "tab",
+		"label": "Top Contributors"
+	}, {
+		"id": "allPosts",
+		"active": false,
+		"visible": true,
+		"type": "tab",
+		"label": "All Contributors"
+	}],
 	"dependencies": {
 		"Janrain": {
 			"appId": undefined
@@ -14,7 +35,8 @@ newsFeed.config = {
 		"StreamServer": {
 			"appkey": undefined,
 		}
-	}
+	},
+	"advanced": {}
 };
 
 newsFeed.dependencies = [{
@@ -23,6 +45,8 @@ newsFeed.dependencies = [{
 }, {
 	"url": "{config:cdnBaseURL.sdk}/streamserver.pack.js",
 	"control": "Echo.StreamServer.Controls.Stream"
+}, {
+	"url": "{config:cdnBaseURL.sdk}/gui.pack.css"
 }];
 
 newsFeed.templates.main =
@@ -43,23 +67,8 @@ newsFeed.templates.tabs.navItem =
 
 newsFeed.renderers.postsTabs = function(element, extra) {
 	var self = this;
-	var tpls = newsFeed.templates.tabs;
-	var tabs = [{
-		"id": "topPosts",
-		"active": true,
-		"type": "tab",
-		"label": "Official"
-	}, {
-		"id": "topPosts",
-		"active": false,
-		"type": "tab",
-		"label": "Top Contributors"
-	}, {
-		"id": "allPosts",
-		"active": false,
-		"type": "tab",
-		"label": "All Contributors"
-	}];
+	var tpls = this.templates.tabs;
+	var tabs = this.config.get("tabs");
 	var nav = $(this.substitute({"template": tpls.nav}));
 	$.map(tabs, function(tab) {
 		var container = $(self.substitute({
@@ -92,37 +101,30 @@ newsFeed.renderers.newsFeed = function(element) {
 	this.initComponent({
 		"id": "Conversations",
 		"component": "Echo.Apps.Conversations",
-		"config": {
+		"config": $.extend(true, {
 			"target": element,
 			"targetURL": this.config.get("targetURL"),
-			"auth": {
-				"allowAnonymousSubmission": false
-			},
-			"postComposer": {
-				"visible": true,
-				"resolveURLs": true
-			},
 			"topPosts": {
-				"visible": true,
 				"queryOverride": topQuery,
-				"resolveURLs": true
+				"visible": true
 			},
 			"allPosts": {
-				"visible": false,
 				"queryOverride": allQuery,
-				"resolveURLs": true
+				"visible": false
 			},
 			"dependencies": this.config.get("dependencies")
-		}
+		}, this.config.get("advanced"))
 	});
 	return element;
 }
+
 newsFeed.css =
 	'.{class:postsTabs} .nav-pills { width: 100%; margin:0; }' +
 	'.{class:postsTabs} .nav li { display: table-cell; width: 1%; float: none; }' +
 	'.{class:postsTabs} .nav li a { text-align: center; border: 1px solid #CCC6C6; border-left: 0px; border-radius: 0px; margin: 2px 0px 2px 0px; }' +
 	'.{class:postsTabs} .nav li:first-child a { border-left: 1px solid #CCC6C6; }' +
 	'.{class:newsFeed} .echo-apps-conversations-streamHeader { display: none; }';
+
 Echo.App.create(newsFeed);
 
 })(Echo.jQuery);
