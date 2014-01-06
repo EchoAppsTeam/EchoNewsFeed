@@ -12,6 +12,12 @@
 		"icon": "http://cdn.echoenabled.com/images/echo.png"
 	},
 	"dashboards": [{
+		"id": "global",
+		"title": "Global",
+		"script": "{%=baseURL%}/global-dashboard.js",
+		"component": "Echo.Apps.NewsFeedGlobal.Dashboard",
+		"type": ""
+	}, {
 		"id": "instances",
 		"title": "Instances",
 		"script": "{%=baseURL%}/dashboard.js",
@@ -27,6 +33,13 @@
 			"janrainapps": "{data:apps.janrain.apps}",
 			"customer": "{data:customer}",
 			"domains": "{data:apps.streamserver.domains}"
+		}
+	}, {
+		"id": "docs",
+		"type": "external",
+		"title": "Documentation",
+		"config": {
+			"src": "http://emb.echoplatform.com/newsfeed/docs/overview"
 		}
 	}],
 	"client_widget": {
