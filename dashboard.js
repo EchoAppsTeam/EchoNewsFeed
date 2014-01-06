@@ -300,19 +300,130 @@ dashboard.config = {
 };
 
 dashboard.config.ecl = [{
-	"name": "targetURL",
-	"component": "Echo.Apps.MediaGallery.DataSourceGroup",
-	"type": "string",
-	"required": true,
+	"component": "Group",
+	"name": "tabs",
+	"type": "object",
 	"config": {
-		"title": "",
-		"labels": {
-			"dataserverBundleName": "Echo Stream+ Auto-Generated Bundle for {instanceName}"
+		"title": "Tabs"
+	},
+	"items": [{
+		"component": "Group",
+		"name":"official",
+		"type": "object",
+		"config": {
+			"title": "\"Official\" tab settings"
 		},
-		"apiBaseURLs": {
-			"DataServer": "http://nds.echoenabled.com/api/"
+		"items":[{
+			"component": "Checkbox",
+			"name": "enabled",
+			"type": "boolean",
+			"default": true,
+			"config": {
+				"title":"Show \"Official\" tab",
+				"desc": "if enabled \"Official\" tab is availible"
+			}
+		}, {
+			"component": "Input",
+			"name": "label",
+			"type": "string",
+			"default": "Official",
+			"config": {"title": "\"Official\" tab label"}
+		}]
+	}, {
+		"component": "Group",
+		"name":"top",
+		"type": "object",
+		"config": {
+			"title": "\"Top contributors\" tab settings"
+		},
+		"items":[{
+			"component": "Checkbox",
+			"name": "enabled",
+			"type": "boolean",
+			"default": true,
+			"config": {
+				"title":"Show \"Top contributors\" tab",
+				"desc": "if enabled \"Top contributors\" tab is availible"
+			}
+		}, {
+			"component": "Input",
+			"name": "label",
+			"type": "string",
+			"default": "Top contributors",
+			"config": {"title": "\"Top contributors\" tab label"}
+		}]
+	}, {
+		"component": "Group",
+		"name":"all",
+		"type": "object",
+		"config": {
+			"title": "\"All contributors\" tab settings"
+		},
+		"items":[{
+			"component": "Checkbox",
+			"name": "enabled",
+			"type": "boolean",
+			"default": true,
+			"config": {
+				"title":"Show \"All contributors\" tab",
+				"desc": "if enabled \"All contributors\" tab is availible"
+			}
+		}, {
+			"component": "Input",
+			"name": "label",
+			"type": "string",
+			"default": "All contributors",
+			"config": {"title": "\"All contributors\" tab label"}
+		}]
+	}]
+}, {
+	"component": "Group",
+	"name": "content",
+	"type": "object",
+	"config": {
+		"title": "Content"
+	},
+	"items":[{
+		"component": "Echo.Apps.Conversations.Dashboard.TargetSelector",
+		"name": "scope",
+		"type": "string",
+		"default": "",
+		"config": {
+			"title": "Scope",
+			"default": "",
+			"data": {"sample": "http://example.com/section"},
+			"defaultValueTitle": "Use local page URL",
+			"customValueTitle": "Use this URL"
+		}
+	}, {
+		"component": "Input",
+		"name": "tags",
+		"type": "string",
+		"default": "",
+		"config": {
+			"title": "Tags",
+			"desc": "Specifies tags to filter News Feed items"
+		}
+	}, {
+		"component": "Input",
+		"name": "officialSources",
+		"type": "string",
+		"default": "",
+		"config": {
+			"title": "Official sources",
+			"desc": "Specifies \"official sources\" to filter News Feed items"
+		}
+	}, {
+		"component": "Input",
+		"name": "domainOfExpertise",
+		"type": "string",
+		"default": "local",
+		"config": {
+			"title": "Domain of expertise",
+			"desc": "Specifies \"domain of expertise\" to filter News Feed items"
 		}
 	}
+	]
 }, {
 	"component": "Group",
 	"name": "dependencies",
@@ -354,7 +465,7 @@ dashboard.config.ecl = [{
 			"title": "Enable Bozo Filter",
 			"desc": "If enabled, ensures that users see their own post irrespective of the moderation state of that post"
 		}
-	}, {
+	}, /*{
 		"component": "Group",
 		"name": "postComposer",
 		"type": "object",
@@ -382,7 +493,7 @@ dashboard.config.ecl = [{
 		"config": {
 			"title": "All Posts"
 		}
-	}, {
+	},*/ {
 		"component": "Group",
 		"name": "auth",
 		"type": "object",
@@ -419,8 +530,6 @@ dashboard.config.ecl = [{
         }]
 }];
 
-
-// TODO: get rid of this heavy normalization process
 dashboard.config.normalizer = {
 	"ecl": function(obj, component) {
 		var assembleBaseECL = function() {
@@ -439,82 +548,87 @@ dashboard.config.normalizer = {
 				return $.extend(true, {}, value, overrides);
 			});
 		};
+		return $.map(obj, function(item) {
+			var itemHandlers = {
+				"topPosts": function() {
+					var items = assembleBaseECL.call(this);
 
-		var handle = function(item) {
-					var itemHandlers = {
-						"topPosts": function() {
-							var items = assembleBaseECL.call(this);
-							items[3]["default"] = 5; // override initialItemsPerPage value
-							items[12]["items"][0]["default"] = true;
-							items[12]["items"][1]["default"] = true;
-							items.pop();
+					items[3]["default"] = 5; // override initialItemsPerPage value
+					items[12]["items"][0]["default"] = true;
+					items[12]["items"][1]["default"] = true;
+					items.pop();
 
-							items.splice(5, 0, {
-								"component": "Checkbox",
-								"name": "includeTopContributors",
-								"type": "boolean",
-								"default": true,
-								"config": {
-									"title": "Include Top Contributors",
-									"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
-										"included in the Top Posts stream unless manually removed"
-								}
-							});
-							this["items"] = items;
-							return this;
-						},
-						"allPosts": function() {
-							var items = assembleBaseECL.call(this);
-							items[12]["items"].push(component.get("premoderationECL"));
-							items.splice(11, 0, {
-								"component": "Checkbox",
-								"name": "displayCommunityFlagIntent",
-								"type": "boolean",
-								"default": true,
-								"config": {
-									"title": "Display Community Flag Intent",
-									"desc": "If enabled, users are offered the option to flag a post as inappropriate"
-								}
-							});
-							this["items"] = items;
-							return this;
-						},
-						"postComposer": function() {
-							this["items"] = component.get("baseComposerECL");
-							return this;
-						},
-						"replyComposer": function() {
-							this["items"] = component.get("baseComposerECL");
-							return this;
+					items.splice(5, 0, {
+						"component": "Checkbox",
+						"name": "includeTopContributors",
+						"type": "boolean",
+						"default": true,
+						"config": {
+							"title": "Include Top Contributors",
+							"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
+								"included in the Top Posts stream unless manually removed"
 						}
-					};
-					return $.isFunction(itemHandlers[item.name])
-						? itemHandlers[item.name].call(item) : item;
-		};
-
-		return $.map(obj, function(field) {
-			return field.name !== "advanced"
-				? field
-				: $.extend({}, field, {
-					"items": $.map(field.items || {}, function(item) {
-						return handle(item);
-					})
-				})
+					});
+					this["items"] = items;
+					return this;
+				},
+				"allPosts": function() {
+					var items = assembleBaseECL.call(this);
+					items[12]["items"].push(component.get("premoderationECL"));
+					items.splice(11, 0, {
+						"component": "Checkbox",
+						"name": "displayCommunityFlagIntent",
+						"type": "boolean",
+						"default": true,
+						"config": {
+							"title": "Display Community Flag Intent",
+							"desc": "If enabled, users are offered the option to flag a post as inappropriate"
+						}
+					});
+					this["items"] = items;
+					return this;
+				},
+				"postComposer": function() {
+					this["items"] = component.get("baseComposerECL");
+					return this;
+				},
+				"replyComposer": function() {
+					this["items"] = component.get("baseComposerECL");
+					return this;
+				}
+			};
+			return $.isFunction(itemHandlers[item.name])
+				? itemHandlers[item.name].call(item) : item;
 		});
 	}
 };
 
 dashboard.init = function() {
 	var self = this, parent = $.proxy(this.parent, this);
-	this._fetchDataServerToken(function() {
-		self.config.set("ecl", self._prepareECL(self.config.get("ecl")));
+	this._fetchCustomerDomains($.Deferred().resolve);
+	this._requestData(function() {
 		parent();
 	});
 };
 
+dashboard.methods._fetchCustomerDomains = function(callback) {
+	var self = this;
+	Echo.AppServer.API.request({
+		"endpoint": "customer/{id}/domains",
+		"id": this.config.get("data.customer").id,
+		"onData": function(response) {
+			self.config.set("domains", response);
+			callback.call(self);
+		},
+		"onError": function(response) {
+			self._displayError(self.labels.get("failedToFetchDomains", {"reason": response.data.msg}));
+		}
+	}).send();
+};
+
 dashboard.methods.declareInitialConfig = function() {
-	var keys = this.config.get("appkeys", []);
-	var apps = this.config.get("janrainapps", []);
+	var keys = this.get("appkeys", []);
+	var apps = this.get("janrainapps", []);
 	return {
 		"targetURL": this._assembleTargetURL(),
 		"dependencies": {
@@ -528,96 +642,81 @@ dashboard.methods.declareInitialConfig = function() {
 	};
 };
 
-dashboard.methods._prepareECL = function(items) {
-	var self = this;
-
-	var instructions = {
-		"targetURL": function(item) {
-			item.config = $.extend({
-				"instanceName": self.config.get("instance.name"),
-				"domains": self.config.get("domains"),
-				"apiToken": self.config.get("dataserverToken"),
-				"valueHandler": function() {
-					return self._assembleTargetURL();
-				}
-			}, item.config);
-			return item;
-		},
-		"dependencies.appkey": function(item) {
-			item.config.options = $.map(self.config.get("appkeys"), function(appkey) {
-				return {
-					"title": appkey.key,
-					"value": appkey.key
-				};
-			});
-			return item;
-		},
-		"dependencies.janrainapp": function(item) {
-			item.config.options = $.map(self.config.get("janrainapps"), function(app) {
-				return {
-					"title": app.name,
-					"value": app.name
-				};
-			});
-			return item;
-		}
-	};
-	return (function traverse(items, path) {
-		return $.map(items, function(item) {
-			var _path = path ? path + "." + item.name : item.name;
-			if (item.type === "object" && item.items) {
-				item.items = traverse(item.items, _path);
-			} else if (instructions[_path]) {
-				item = instructions[_path](item);
+dashboard.methods.initConfigurator = function() {
+	function findKey(key, ecl) {
+		var found;
+		$.each(ecl, function(k, item) {
+			if (item.name === key) {
+				found = item;
+				return false;
+			} else if (item.type === "object") {
+				found = findKey(key, item.items);
+				if (found) return false;
 			}
-			return item;
 		});
-	})(items, "");
-};
+		return found;
+	}
 
-dashboard.methods._fetchDataServerToken = function(callback) {
-	var self = this;
-	Echo.AppServer.API.request({
-		"endpoint": "customer/{id}/subscriptions",
-		"id": this.config.get("customer").id,
-		"onData": function(response) {
-			var token = Echo.Utils.foldl("", response, function(subscription, acc) {
-				return subscription.product.name === "dataserver"
-					? subscription.extra.token
-					: acc;
-			});
-			if (token) {
-				self.config.set("dataserverToken", token);
-				callback.call(self);
-			} else {
-				self._displayError(
-					self.labels.get("failedToFetchToken", {
-						"reason": self.labels.get("dataserverSubscriptionNotFound")
-					})
-				);
-			}
-		},
-		"onError": function(response) {
-			self._displayError(self.labels.get("failedToFetchToken", {"reason": response.data.msg}));
-		}
-	}).send();
-};
+	var ecl = this.config.get("ecl");
 
-dashboard.methods._displayError = function(message) {
-	this.showMessage({
-		"type": "error",
-		"message": message,
-		"target": this.config.get("target")
+	// populate appkey selectbox
+	var appkey = findKey("appkey", ecl);
+	appkey.config.options = $.map(this.get("appkeys", []), function(appkey) {
+		return {
+			"title": appkey.key,
+			"value": appkey.key
+		};
 	});
-	this.ready();
+
+	// populate janrainapp selectbox
+	var janrainapp = findKey("janrainapp", ecl);
+	janrainapp.config.options = $.map(this.get("janrainapps", []), function(app) {
+		return {
+			"title": app.name,
+			"value": app.name
+		};
+	});
+	this.parent.apply(this, arguments);
 };
+
+dashboard.methods._requestData = function(callback) {
+	var self = this;
+	var customerId = this.config.get("data.customer.id");
+	var deferreds = [];
+	var request = this.config.get("request");
+
+	var requests = [{
+		"name": "appkeys",
+		"endpoint": "customer/" + customerId + "/appkeys"
+	}, {
+		"name": "janrainapps",
+		"endpoint": "customer/" + customerId + "/janrainapps"
+	}];
+	$.map(requests, function(req) {
+		var deferredId = deferreds.push($.Deferred()) - 1;
+		request({
+			"endpoint": req.endpoint,
+			"success": function(response) {
+				self.set(req.name, response);
+				deferreds[deferredId].resolve();
+			}
+		});
+	});
+	$.when.apply($, deferreds).done(callback);
+};
+
+dashboard.methods.update = function(data) {
+	if(data && data.config) {
+		data.config.targetURL = this._assembleTargetURL();
+	}
+	this.parent(data);
+}
 
 dashboard.methods._assembleTargetURL = function() {
-	var re =  new RegExp("\/" + this.config.get("instance.name") + "$");
-	var targetURL = this.config.get("instance.config.targetURL");
-
-	if (!targetURL || !targetURL.match(re)) {
-		targetURL =  "http://" + this.config.get("domains")[0] + "/social-source-input/" + this.config.get("instance.name");
+	var domain = this.config.get("domains")[0];
+	var targetURL = "";
+	if (domain && domain.length) { //TODO: check domain
+		targetURL =  "http://" + domain + "/data/official/cms/";
 	}
 
 	return targetURL;
