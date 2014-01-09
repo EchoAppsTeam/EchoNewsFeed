@@ -25,7 +25,9 @@ module.exports = function(grunt) {
 			"images/**"
 		],
 		"demo": [
-			"demo.html"
+			"demo.html",
+			"politics/index.html",
+			"sport/index.html"
 		]
 	};
 
