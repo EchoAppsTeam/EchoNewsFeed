@@ -107,7 +107,7 @@ newsFeed.config.normalizer = {
 		if (tags && typeof tags === "string" && tags.length > 0) {
 			commonQueryParts.push("tags:" + tags.toLowerCase().replace(" ", ""));
 		}
-		commonQueryParts.push("sortOrder:reverseChronological itemsPerPage:15 type:comment,note (state:Untouched,ModeratorApproved OR (user.roles:moderator,administrator AND -state:ModeratorDeleted)) children:2 (state:Untouched,ModeratorApproved OR (user.roles:moderator,administrator AND -state:ModeratorDeleted))");
+		commonQueryParts.push("itemsPerPage:15 type:article");
 		return {
 			"official": commonQueryParts.join(" "),
 			"top": commonQueryParts.join(" "),
