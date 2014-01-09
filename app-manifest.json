@@ -12,12 +12,6 @@
 		"icon": "http://cdn.echoenabled.com/images/echo.png"
 	},
 	"dashboards": [{
-		"id": "global",
-		"title": "Global",
-		"script": "{%=baseURL%}/global-dashboard.js",
-		"component": "Echo.Apps.NewsFeedGlobal.Dashboard",
-		"type": ""
-	}, {
 		"id": "instances",
 		"title": "Instances",
 		"script": "{%=baseURL%}/dashboard.js",
@@ -34,6 +28,12 @@
 			"customer": "{data:customer}",
 			"domains": "{data:apps.streamserver.domains}"
 		}
+	}, {
+		"id": "global",
+		"title": "Global",
+		"script": "{%=baseURL%}/global-dashboard.js",
+		"component": "Echo.Apps.NewsFeedGlobal.Dashboard",
+		"type": ""
 	}, {
 		"id": "docs",
 		"type": "external",
