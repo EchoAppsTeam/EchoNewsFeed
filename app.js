@@ -17,13 +17,13 @@ newsFeed.config = {
 	}, {
 		"id": "top",
 		"active": false,
-		"visible": true,
+		"visible": false,
 		"type": "tab",
 		"label": "Top Contributors"
 	}, {
 		"id": "all",
 		"active": false,
-		"visible": true,
+		"visible": false,
 		"type": "tab",
 		"label": "All Contributors"
 	}],
@@ -94,10 +94,12 @@ newsFeed.config.normalizer = {
 		var targetURL = component.config.targetURL;
 		var commonQueryParts = [];
 		var queries = {"all": [], "top": [], "official": []};
-		if (scope && scope != "local") {
+		if (scope && scope.toLowerCase() !== "local") {
 			commonQueryParts.push("scope:" + scope);
 		} else {
-			commonQueryParts.push("childrenof:" + targetURL);
+			var pageURL = $("link[rel='canonical']").attr('href')
+				|| document.location.href.split("#")[0];
+			commonQueryParts.push("childrenof:" + pageURL);
 		}
 		if (sources && typeof sources === "string" && sources.length > 0) {
 			commonQueryParts.push("source:" + sources.replace(" ", ""));
@@ -119,8 +121,10 @@ newsFeed.renderers.postsTabs = function(element, extra) {
 	var tpls = this.templates.tabs;
 	var tabs = this.config.get("contentTabs");
 	var nav = $(this.substitute({"template": tpls.nav}));
+	var visibleTabsCounter = 0;
 	$.map(tabs, function(tab) {
 		if (tab.visible) {
+			visibleTabsCounter++;
 			var container = $(self.substitute({
 				"template": tpls.navItem,
 				"data": {
@@ -145,6 +149,9 @@ newsFeed.renderers.postsTabs = function(element, extra) {
 			nav.append(container);
 		}
 	});
+	if (visibleTabsCounter <= 1) {
+		return element.empty();
+	}
 	return element.empty().append(nav);
 };
 
