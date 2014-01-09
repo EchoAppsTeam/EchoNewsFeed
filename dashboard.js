@@ -329,7 +329,7 @@ dashboard.config.ecl = [{
 			"default": "Official",
 			"config": {"title": "\"Official\" tab label"}
 		}]
-	}, {
+	}/*, { // Coming soon (v1.2)
 		"component": "Group",
 		"name":"top",
 		"type": "object",
@@ -375,7 +375,7 @@ dashboard.config.ecl = [{
 			"default": "All contributors",
 			"config": {"title": "\"All contributors\" tab label"}
 		}]
-	}]
+	}*/]
 }, {
 	"component": "Group",
 	"name": "content",
@@ -413,7 +413,7 @@ dashboard.config.ecl = [{
 			"title": "Official sources",
 			"desc": "Specifies \"official sources\" to filter News Feed items"
 		}
-	}, {
+	}/*, { // Coming soon (v1.3)
 		"component": "Input",
 		"name": "domainOfExpertise",
 		"type": "string",
@@ -422,8 +422,7 @@ dashboard.config.ecl = [{
 			"title": "Domain of expertise",
 			"desc": "Specifies \"domain of expertise\" to filter News Feed items"
 		}
-	}
-	]
+	}*/]
 }, {
 	"component": "Group",
 	"name": "dependencies",

@@ -17,8 +17,8 @@ dashboard.dependencies = [{
 
 dashboard.config = {
 	"ecl": [{
-		"name": "targetURL",
 		"component": "Echo.Apps.MediaGallery.DataSourceGroup",
+		"name": "targetURL",
 		"type": "string",
 		"required": true,
 		"config": {
@@ -30,7 +30,15 @@ dashboard.config = {
 				"DataServer": "http://nds.echoenabled.com/api/"
 			}
 		}
-	}]
+	}/*, { //coming soon...
+		"component": "Input",
+		"name": "EditorialFireHoseSourceName",
+		"type": "string",
+		"config": {
+			"title": "Firehose source name",
+			"description": "Setting up displayed source name for setted feeds"
+		}
+	}*/]
 };
 
 dashboard.labels = {
