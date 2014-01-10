@@ -30,7 +30,7 @@ dashboard.dependencies = [{
 	"control": "Echo.DataServer.Controls.Pack"
 }, {
 	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
-	"control": "echo.apps.streamplus.instancedatasource"
+	"control": "Echo.Apps.MediaGallery.InstanceDataSource"
 }];
 
 dashboard.vars = {
@@ -385,11 +385,11 @@ dashboard.config.ecl = [{
 	},
 	"items":[{
 		"component": "Echo.Apps.Conversations.Dashboard.TargetSelector",
-		"name": "scope",
+		"name": "section",
 		"type": "string",
-		"default": "",
+		"default": "local",
 		"config": {
-			"title": "Scope",
+			"title": "Section",
 			"default": "",
 			"data": {"sample": "http://example.com/section"},
 			"defaultValueTitle": "Use local page URL",
@@ -403,15 +403,6 @@ dashboard.config.ecl = [{
 		"config": {
 			"title": "Tags",
 			"desc": "Specifies tags to filter News Feed items"
-		}
-	}, {
-		"component": "Input",
-		"name": "officialSources",
-		"type": "string",
-		"default": "",
-		"config": {
-			"title": "Official sources",
-			"desc": "Specifies \"official sources\" to filter News Feed items"
 		}
 	}/*, { // Coming soon (v1.3)
 		"component": "Input",
@@ -464,7 +455,7 @@ dashboard.config.ecl = [{
 			"title": "Enable Bozo Filter",
 			"desc": "If enabled, ensures that users see their own post irrespective of the moderation state of that post"
 		}
-	}, /*{
+	}, {
 		"component": "Group",
 		"name": "postComposer",
 		"type": "object",
@@ -492,7 +483,7 @@ dashboard.config.ecl = [{
 		"config": {
 			"title": "All Posts"
 		}
-	},*/ {
+	}, {
 		"component": "Group",
 		"name": "auth",
 		"type": "object",
@@ -529,6 +520,7 @@ dashboard.config.ecl = [{
         }]
 }];
 
+// TODO: get rid of this heavy normalization process
 dashboard.config.normalizer = {
 	"ecl": function(obj, component) {
 		var assembleBaseECL = function() {
@@ -547,60 +539,81 @@ dashboard.config.normalizer = {
 				return $.extend(true, {}, value, overrides);
 			});
 		};
-		return $.map(obj, function(item) {
-			var itemHandlers = {
-				"topPosts": function() {
-					var items = assembleBaseECL.call(this);
 
-					items[3]["default"] = 5; // override initialItemsPerPage value
-					items[12]["items"][0]["default"] = true;
-					items[12]["items"][1]["default"] = true;
-					items.pop();
+		var handle = function(item) {
+					var itemHandlers = {
+						"topPosts": function() {
+							var items = assembleBaseECL.call(this);
+							items[3]["default"] = 5; // override initialItemsPerPage value
+							items[12]["items"][0]["default"] = true;
+							items[12]["items"][1]["default"] = true;
+							items.pop();
 
-					items.splice(5, 0, {
-						"component": "Checkbox",
-						"name": "includeTopContributors",
-						"type": "boolean",
-						"default": true,
-						"config": {
-							"title": "Include Top Contributors",
-							"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
-								"included in the Top Posts stream unless manually removed"
+							items.splice(5, 0, {
+								"component": "Checkbox",
+								"name": "includeTopContributors",
+								"type": "boolean",
+								"default": true,
+								"config": {
+									"title": "Include Top Contributors",
+									"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
+										"included in the Top Posts stream unless manually removed"
+								}
+							});
+							this["items"] = items;
+							return this;
+						},
+						"allPosts": function() {
+							var items = assembleBaseECL.call(this);
+							items[12]["items"].push(component.get("premoderationECL"));
+							items.splice(11, 0, {
+								"component": "Checkbox",
+								"name": "displayCommunityFlagIntent",
+								"type": "boolean",
+								"default": true,
+								"config": {
+									"title": "Display Community Flag Intent",
+									"desc": "If enabled, users are offered the option to flag a post as inappropriate"
+								}
+							});
+							this["items"] = items;
+							return this;
+						},
+						"postComposer": function() {
+							this["items"] = [].concat(component.get("baseComposerECL"));
+							return this;
+						},
+						"replyComposer": function() {
+							this["items"] = [].concat(component.get("baseComposerECL"));
+							this["items"].splice(2, 0, {
+								"component": "Checkbox",
+								"name": "displayCompactForm",
+								"type": "boolean",
+								"default": true,
+								"config": {
+									"title": "Display Compact Form",
+									"desc": "If enabled, compact form is displayed below each top-level post"
+								}
+							});
+							return this;
 						}
-					});
-					this["items"] = items;
-					return this;
-				},
-				"allPosts": function() {
-					var items = assembleBaseECL.call(this);
-					items[12]["items"].push(component.get("premoderationECL"));
-					items.splice(11, 0, {
-						"component": "Checkbox",
-						"name": "displayCommunityFlagIntent",
-						"type": "boolean",
-						"default": true,
-						"config": {
-							"title": "Display Community Flag Intent",
-							"desc": "If enabled, users are offered the option to flag a post as inappropriate"
-						}
-					});
-					this["items"] = items;
-					return this;
-				},
-				"postComposer": function() {
-					this["items"] = component.get("baseComposerECL");
-					return this;
-				},
-				"replyComposer": function() {
-					this["items"] = component.get("baseComposerECL");
-					return this;
-				}
-			};
-			return $.isFunction(itemHandlers[item.name])
-				? itemHandlers[item.name].call(item) : item;
+					};
+					return $.isFunction(itemHandlers[item.name])
+						? itemHandlers[item.name].call(item) : item;
+		};
+
+		return $.map(obj, function(field) {
+			return field.name !== "advanced"
+				? field
+				: $.extend({}, field, {
+					"items": $.map(field.items || {}, function(item) {
+						return handle(item);
+					})
+				})
 		});
 	}
 };
+
 
 dashboard.init = function() {
 	var self = this, parent = $.proxy(this.parent, this);
