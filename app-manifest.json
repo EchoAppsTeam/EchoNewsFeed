@@ -29,10 +29,10 @@
 			"domains": "{data:apps.streamserver.domains}"
 		}
 	}, {
-		"id": "global",
-		"title": "Global",
+		"id": "content-management",
+		"title": "Content Management",
 		"script": "{%=baseURL%}/global-dashboard.js",
-		"component": "Echo.Apps.NewsFeedGlobal.Dashboard",
+		"component": "Echo.Apps.NewsFeedContentManagement.Dashboard",
 		"type": ""
 	}, {
 		"id": "docs",

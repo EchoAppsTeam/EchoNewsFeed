@@ -3,9 +3,9 @@
 
 var $ = jQuery;
 
-if (Echo.AppServer.Dashboard.isDefined("Echo.Apps.NewsFeedGlobal.Dashboard")) return;
+if (Echo.AppServer.Dashboard.isDefined("Echo.Apps.NewsFeedContentManagement.Dashboard")) return;
 
-var dashboard = Echo.AppServer.Dashboard.manifest("Echo.Apps.NewsFeedGlobal.Dashboard");
+var dashboard = Echo.AppServer.Dashboard.manifest("Echo.Apps.NewsFeedContentManagement.Dashboard");
 
 dashboard.dependencies = [{
 	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
@@ -24,7 +24,7 @@ dashboard.config = {
 		"config": {
 			"title": "",
 			"labels": {
-				"dataserverBundleName": "Echo Stream+ Auto-Generated Bundle for {instanceName}"
+				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle for {instanceName}"
 			},
 			"apiBaseURLs": {
 				"DataServer": "http://nds.echoenabled.com/api/"
