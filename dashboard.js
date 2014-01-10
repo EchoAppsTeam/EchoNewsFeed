@@ -402,7 +402,8 @@ dashboard.config.ecl = [{
 		"default": "",
 		"config": {
 			"title": "Tags",
-			"desc": "Specifies tags to filter News Feed items"
+			"desc": "Specifies tags to filter News Feed items",
+			"data": {"sample": "CNN, politics"}
 		}
 	}/*, { // Coming soon (v1.3)
 		"component": "Input",
