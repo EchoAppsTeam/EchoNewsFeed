@@ -89,13 +89,13 @@ newsFeed.config.normalizer = {
 		if(component.config.content) {
 			var tags = component.config.content.tags;
 			var sources = component.config.content.officialSources;
-			var scope = component.config.content.scope;
+			var section = component.config.content.section;
 		}
 		var targetURL = component.config.targetURL;
 		var commonQueryParts = [];
 		var queries = {"all": [], "top": [], "official": []};
-		if (scope && scope.toLowerCase() !== "local") {
-			commonQueryParts.push("scope:" + scope);
+		if (section && section.toLowerCase() !== "local") {
+			commonQueryParts.push("scope:" + section);
 		} else {
 			var pageURL = $("link[rel='canonical']").attr('href')
 				|| document.location.href.split("#")[0];
