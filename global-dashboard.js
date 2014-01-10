@@ -11,13 +11,13 @@ dashboard.dependencies = [{
 	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
 	"control": "echo.apps.streamplus.instancedatasource"
 }, {
-	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
-	"control": "Echo.DataServer.Controls.Pack"
+	"url": "{%=baseURL%}/data-source.js",
+	"control": "Echo.Apps.MediaGallery.InstanceDataSource"
 }];
 
 dashboard.config = {
 	"ecl": [{
-		"component": "Echo.Apps.MediaGallery.DataSourceGroup",
+		"component": "Echo.Apps.NewsFeed.DataSourceGroup",
 		"name": "targetURL",
 		"type": "string",
 		"required": true,
@@ -182,8 +182,6 @@ dashboard.methods._assembleTargetURL = function() {
 	return targetURL;
 };
 
-
-
 dashboard.renderers.container = function(element) {
 	var self = this;
 	new Echo.AppServer.Controls.Configurator({
@@ -194,18 +192,6 @@ dashboard.renderers.container = function(element) {
 			"items": this.config.get("ecl")
 		}
 	});
-/*	element.empty();
-	$.map(settings, function(setting) {
-		var view = self.view.fork();
-		element.append(view.render({
-			"template": dashboard.templates.setting,
-			"data": {
-				"title": setting.title,
-				"value": setting.value
-			}
-		}));
-		setting.show && setting.show(view);
-	});*/
 	return element;
 };
 

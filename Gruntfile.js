@@ -19,6 +19,7 @@ module.exports = function(grunt) {
 			"app.js",
 			"dashboard.js",
 			"dashboard/*.js",
+			"data-source.js",
 			"global-dashboard.js"
 		],
 		"images": [
