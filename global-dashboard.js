@@ -24,21 +24,14 @@ dashboard.config = {
 		"config": {
 			"title": "",
 			"labels": {
-				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle for {instanceName}"
+				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle for {instanceName}",
+				"packTitle": "Editorial content firehose sources"
 			},
 			"apiBaseURLs": {
 				"DataServer": "http://nds.echoenabled.com/api/"
 			}
 		}
-	}/*, { //coming soon...
-		"component": "Input",
-		"name": "EditorialFireHoseSourceName",
-		"type": "string",
-		"config": {
-			"title": "Firehose source name",
-			"description": "Setting up displayed source name for setted feeds"
-		}
-	}*/]
+	}]
 };
 
 dashboard.labels = {
@@ -175,10 +168,9 @@ dashboard.methods._displayError = function(message) {
 dashboard.methods._assembleTargetURL = function() {
 	var domain = this.config.get("domains")[0];
 	var targetURL = "";
-	if (domain && domain.length) { //TODO: check domain
+	if (domain && domain.length) {
 		targetURL =  "http://" + domain + "/data/official/cms/";
 	}
-
 	return targetURL;
 };
 

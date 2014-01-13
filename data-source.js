@@ -29,23 +29,30 @@ dataSource.methods._createPack = function(data) {
 		"apiBaseURL": this.config.get("apiBaseURLs.DataServer"),
 		"cdnBaseURL": this.config.get("cdnBaseURL"),
 		"data": data,
+		"labels": this.config.get("labels"),
 		"plugins": [{
 			"name": "HideSettings"
 		}, {
 			"name": "AddRules"
 		}]
 	});
-	this.parent(data);
 };
 
 Echo.Control.create(dataSource);
 
-// TODO F:1630 move this logic to the dataserver component
-// (hide settings&change title) and get rid of this plugin
-
 var addRulesPlugin = Echo.Plugin.manifest("AddRules", "Echo.DataServer.Controls.Dashboard.Pack");
 
 if (Echo.Plugin.isDefined(addRulesPlugin)) return;
+
+addRulesPlugin.labels = {
+	"packTitle": "Data Source"
+};
+
+addRulesPlugin.component.renderers.title = function(element) {
+	var label = this.component.config.get("labels.packTitle") || this.labels.get("packTitle");
+	return element.empty().append(label);
+};
+
 
 addRulesPlugin.component.renderers.newFeed = function(element) {
 	var self = this.component;
