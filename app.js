@@ -86,7 +86,7 @@ newsFeed.config.normalizer = {
 		return result;
 	},
 	"queries": function(obj, component) {
-		if(component.config.content) {
+		if (component.config.content) {
 			var tags = component.config.content.tags;
 			var sources = component.config.content.officialSources;
 			var section = component.config.content.section;
@@ -95,7 +95,7 @@ newsFeed.config.normalizer = {
 		var commonQueryParts = [];
 		var queries = {"all": [], "top": [], "official": []};
 		if (section && section.toLowerCase() !== "local") {
-			commonQueryParts.push("scope:" + section);
+			commonQueryParts.push("childrenof:" + section);
 		} else {
 			var pageURL = $("link[rel='canonical']").attr('href')
 				|| document.location.href.split("#")[0];
@@ -107,7 +107,7 @@ newsFeed.config.normalizer = {
 		if (tags && typeof tags === "string" && tags.length > 0) {
 			commonQueryParts.push("tags:" + tags.toLowerCase().replace(" ", ""));
 		}
-		commonQueryParts.push("itemsPerPage:15 type:article");
+		commonQueryParts.push("safeHTML:permissive");
 		return {
 			"official": commonQueryParts.join(" "),
 			"top": commonQueryParts.join(" "),
