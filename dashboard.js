@@ -329,53 +329,7 @@ dashboard.config.ecl = [{
 			"default": "Official",
 			"config": {"title": "\"Official\" tab label"}
 		}]
-	}/*, { // Coming soon (v1.2)
-		"component": "Group",
-		"name":"top",
-		"type": "object",
-		"config": {
-			"title": "\"Top contributors\" tab settings"
-		},
-		"items":[{
-			"component": "Checkbox",
-			"name": "enabled",
-			"type": "boolean",
-			"default": true,
-			"config": {
-				"title":"Show \"Top contributors\" tab",
-				"desc": "if enabled \"Top contributors\" tab is availible"
-			}
-		}, {
-			"component": "Input",
-			"name": "label",
-			"type": "string",
-			"default": "Top contributors",
-			"config": {"title": "\"Top contributors\" tab label"}
-		}]
-	}, {
-		"component": "Group",
-		"name":"all",
-		"type": "object",
-		"config": {
-			"title": "\"All contributors\" tab settings"
-		},
-		"items":[{
-			"component": "Checkbox",
-			"name": "enabled",
-			"type": "boolean",
-			"default": true,
-			"config": {
-				"title":"Show \"All contributors\" tab",
-				"desc": "if enabled \"All contributors\" tab is availible"
-			}
-		}, {
-			"component": "Input",
-			"name": "label",
-			"type": "string",
-			"default": "All contributors",
-			"config": {"title": "\"All contributors\" tab label"}
-		}]
-	}*/]
+	}]
 }, {
 	"component": "Group",
 	"name": "content",
@@ -387,7 +341,7 @@ dashboard.config.ecl = [{
 		"component": "Echo.Apps.Conversations.Dashboard.TargetSelector",
 		"name": "section",
 		"type": "string",
-		"default": "local",
+		"default": "",
 		"config": {
 			"title": "Section",
 			"default": "",
@@ -405,16 +359,7 @@ dashboard.config.ecl = [{
 			"desc": "Specifies tags to filter News Feed items",
 			"data": {"sample": "CNN, politics"}
 		}
-	}/*, { // Coming soon (v1.3)
-		"component": "Input",
-		"name": "domainOfExpertise",
-		"type": "string",
-		"default": "local",
-		"config": {
-			"title": "Domain of expertise",
-			"desc": "Specifies \"domain of expertise\" to filter News Feed items"
-		}
-	}*/]
+	}]
 }, {
 	"component": "Group",
 	"name": "dependencies",
@@ -497,28 +442,28 @@ dashboard.config.ecl = [{
 			"type": "boolean",
 			"default": false,
 			"config": {
-                                "title": "Allow anonymous submission",
-                                "desc": "Allow users to post without logging in"
-                        }
-                }, {
-                        "component": "Checkbox",
-                        "name": "enableBundledIdentity",
-                        "type": "boolean",
-                        "default": true,
-                        "config": {
-                                "title": "Bundled Login and Sharing",
-                                "desc": "If set to false, the bundled Janrain Login and Sharing functionality is disabled along with related identity features"
-                        }
-                }, {
-                        "component": "Checkbox",
-                        "name": "hideLoginButtons",
-                        "type": "boolean",
-                        "default": false,
-                        "config": {
-                                "title": "Hide Login Buttons"
-                        }
-                }]
-        }]
+				"title": "Allow anonymous submission",
+				"desc": "Allow users to post without logging in"
+			}
+		}, {
+			"component": "Checkbox",
+			"name": "enableBundledIdentity",
+			"type": "boolean",
+			"default": true,
+			"config": {
+				"title": "Bundled Login and Sharing",
+				"desc": "If set to false, the bundled Janrain Login and Sharing functionality is disabled along with related identity features"
+			}
+		}, {
+			"component": "Checkbox",
+			"name": "hideLoginButtons",
+			"type": "boolean",
+			"default": false,
+			"config": {
+				"title": "Hide Login Buttons"
+			}
+		}]
+	}]
 }];
 
 // TODO: get rid of this heavy normalization process
@@ -542,65 +487,64 @@ dashboard.config.normalizer = {
 		};
 
 		var handle = function(item) {
-					var itemHandlers = {
-						"topPosts": function() {
-							var items = assembleBaseECL.call(this);
-							items[3]["default"] = 5; // override initialItemsPerPage value
-							items[12]["items"][0]["default"] = true;
-							items[12]["items"][1]["default"] = true;
-							items.pop();
-
-							items.splice(5, 0, {
-								"component": "Checkbox",
-								"name": "includeTopContributors",
-								"type": "boolean",
-								"default": true,
-								"config": {
-									"title": "Include Top Contributors",
-									"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
-										"included in the Top Posts stream unless manually removed"
-								}
-							});
-							this["items"] = items;
-							return this;
-						},
-						"allPosts": function() {
-							var items = assembleBaseECL.call(this);
-							items[12]["items"].push(component.get("premoderationECL"));
-							items.splice(11, 0, {
-								"component": "Checkbox",
-								"name": "displayCommunityFlagIntent",
-								"type": "boolean",
-								"default": true,
-								"config": {
-									"title": "Display Community Flag Intent",
-									"desc": "If enabled, users are offered the option to flag a post as inappropriate"
-								}
-							});
-							this["items"] = items;
-							return this;
-						},
-						"postComposer": function() {
-							this["items"] = [].concat(component.get("baseComposerECL"));
-							return this;
-						},
-						"replyComposer": function() {
-							this["items"] = [].concat(component.get("baseComposerECL"));
-							this["items"].splice(2, 0, {
-								"component": "Checkbox",
-								"name": "displayCompactForm",
-								"type": "boolean",
-								"default": true,
-								"config": {
-									"title": "Display Compact Form",
-									"desc": "If enabled, compact form is displayed below each top-level post"
-								}
-							});
-							return this;
+			var itemHandlers = {
+				"topPosts": function() {
+					var items = assembleBaseECL.call(this);
+					items[3]["default"] = 5; // override initialItemsPerPage value
+					items[12]["items"][0]["default"] = true;
+					items[12]["items"][1]["default"] = true;
+					items.pop();
+					items.splice(5, 0, {
+						"component": "Checkbox",
+						"name": "includeTopContributors",
+						"type": "boolean",
+						"default": true,
+						"config": {
+							"title": "Include Top Contributors",
+							"desc": "If True, Posts from users marked as ‘Top Contributors’ are automatically " +
+								"included in the Top Posts stream unless manually removed"
 						}
-					};
-					return $.isFunction(itemHandlers[item.name])
-						? itemHandlers[item.name].call(item) : item;
+					});
+					this["items"] = items;
+					return this;
+				},
+				"allPosts": function() {
+					var items = assembleBaseECL.call(this);
+					items[12]["items"].push(component.get("premoderationECL"));
+					items.splice(11, 0, {
+						"component": "Checkbox",
+						"name": "displayCommunityFlagIntent",
+						"type": "boolean",
+						"default": true,
+						"config": {
+							"title": "Display Community Flag Intent",
+							"desc": "If enabled, users are offered the option to flag a post as inappropriate"
+						}
+					});
+					this["items"] = items;
+					return this;
+				},
+				"postComposer": function() {
+					this["items"] = [].concat(component.get("baseComposerECL"));
+					return this;
+				},
+				"replyComposer": function() {
+					this["items"] = [].concat(component.get("baseComposerECL"));
+					this["items"].splice(2, 0, {
+						"component": "Checkbox",
+						"name": "displayCompactForm",
+						"type": "boolean",
+						"default": true,
+						"config": {
+							"title": "Display Compact Form",
+							"desc": "If enabled, compact form is displayed below each top-level post"
+						}
+					});
+					return this;
+				}
+			};
+			return $.isFunction(itemHandlers[item.name])
+				? itemHandlers[item.name].call(item) : item;
 		};
 
 		return $.map(obj, function(field) {
@@ -719,7 +663,7 @@ dashboard.methods._requestData = function(callback) {
 };
 
 dashboard.methods.update = function(data) {
-	if(data && data.config) {
+	if (data && data.config) {
 		data.config.targetURL = this._assembleTargetURL();
 	}
 	this.parent(data);
