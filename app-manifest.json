@@ -1,9 +1,10 @@
 {
-	"id": "echo-apps-newsfeed-dev",
-	"name": "News Feed (dev)",
+	"id": "echo-apps-newsfeed",
+	"name": "News Feed",
 	"description": "Echo news feed reference app",
 	"app_version": "1.0.0",
 	"cloudapp_protocol_version": "1.0.0",
+	"icon": "{%=baseURL%}/images/news-feed.png",
 	"developer": {
 		"id": "echo",
 		"name": "Echo",
