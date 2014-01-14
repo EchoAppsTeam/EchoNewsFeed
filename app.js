@@ -107,6 +107,30 @@ newsFeed.config.normalizer = {
 		if (tags && typeof tags === "string" && tags.length > 0) {
 			commonQueryParts.push("tags:" + tags.toLowerCase().replace(" ", ""));
 		}
+		var displayTweets =  component.get("config.replies.displayTweets") || false;
+		var nativeSubmissionsMode = component.get("config.replies.displayNativeReplies") || "all";
+		commonQueryParts.push("-state:ModeratorDeleted ");
+		var childrenQueryPart = "children:2 -state:ModeratorDeleted";
+		var excludedSources = [];
+		if (nativeSubmissionsMode === "none") {
+			if (!displayTweets) {
+				childrenQueryPart = "children:0";
+			} else {
+				childrenQueryPart += " source:Twitter";
+			}
+		} else if (nativeSubmissionsMode === "top") {
+			if (!displayTweets) {
+				childrenQueryPart += " -source:Twitter";
+			} else {
+				childrenQueryPart += " source:Twitter";
+			}
+			childrenQueryPart += " OR (user.markers:Conversations.TopContributor OR markers:Conversations.TopPost)";
+		} else if (nativeSubmissionsMode === "all") {
+			if (!displayTweets) {
+				childrenQueryPart += " -source:Twitter";
+			}
+		}
+		commonQueryParts.push(childrenQueryPart);
 		commonQueryParts.push("safeHTML:permissive");
 		return {
 			"official": commonQueryParts.join(" "),
@@ -115,6 +139,8 @@ newsFeed.config.normalizer = {
 		};
 	}
 };
+
+
 
 newsFeed.renderers.postsTabs = function(element, extra) {
 	var self = this;

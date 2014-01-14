@@ -362,6 +362,41 @@ dashboard.config.ecl = [{
 	}]
 }, {
 	"component": "Group",
+	"name": "replies",
+	"type": "object",
+	"config": {
+		"title": "Replies"
+	},
+	"items":[{
+		"component": "Checkbox",
+		"name": "displayTweets",
+		"type": "boolean",
+		"default": false,
+		"config": {
+			"title": "Display Tweets",
+		}
+	}, {
+		"component": "Select",
+		"name": "displayNativeReplies",
+		"type": "string",
+		"default": "all",
+		"config": {
+			"title": "Show native replies",
+			"desc": "Specifies visibility of native replies",
+			"options": [{
+				"title": "All replies",
+				"value": "all"
+			}, {
+				"title": "Only top replies",
+				"value": "top"
+			}, {
+				"title": "Do not show",
+				"value": "none"
+			}]
+		}
+	}]
+},{
+	"component": "Group",
 	"name": "dependencies",
 	"type": "object",
 	"config": {
