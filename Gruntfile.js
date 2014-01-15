@@ -10,6 +10,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-contrib-watch");
+	grunt.loadNpmTasks("grunt-contrib-jshint");
 	grunt.loadNpmTasks("sphere");
 
 	grunt.registerTask("default", ["check-environment:" + shared.config("env"), "jshint", "clean:all", "build"]);
@@ -158,7 +159,8 @@ module.exports = function(grunt) {
 			"options": {
 				"jshintrc": ".jshintrc"
 			},
-			"grunt": ["Gruntfile.js", "grunt/**/*.js"]
+			"grunt": ["Gruntfile.js", "grunt/**/*.js"],
+			"sources": ["<%= sources.js %>"]
 		},
 		"release": {
 			"options": {
