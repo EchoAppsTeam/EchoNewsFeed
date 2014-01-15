@@ -97,7 +97,7 @@ newsFeed.config.normalizer = {
 		if (section && section.toLowerCase() !== "local") {
 			commonQueryParts.push("childrenof:" + section);
 		} else {
-			var pageURL = $("link[rel='canonical']").attr('href')
+			var pageURL = $("link[rel='canonical']").attr('href');
 			if(!pageURL || !Echo.Utils.parseURL(pageURL).domain) {
 				pageURL =  document.location.href.split("#")[0];
 			}
