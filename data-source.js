@@ -8,7 +8,7 @@ var dataSource = Echo.Control.manifest("Echo.Apps.NewsFeed.DataSourceGroup");
 
 if (Echo.Control.isDefined(dataSource)) return;
 
-dataSource.inherits = Echo.Utils.getComponent("Echo.Apps.MediaGallery.DataSourceGroup"); 
+dataSource.inherits = Echo.Utils.getComponent("Echo.Apps.MediaGallery.DataSourceGroup");
 
 dataSource.dependencies = [{
 	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",

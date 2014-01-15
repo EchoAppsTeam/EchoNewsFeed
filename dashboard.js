@@ -373,7 +373,7 @@ dashboard.config.ecl = [{
 		"type": "boolean",
 		"default": false,
 		"config": {
-			"title": "Display Tweets",
+			"title": "Display Tweets"
 		}
 	}, {
 		"component": "Select",
@@ -589,14 +589,14 @@ dashboard.config.normalizer = {
 					"items": $.map(field.items || {}, function(item) {
 						return handle(item);
 					})
-				})
+				});
 		});
 	}
 };
 
 
 dashboard.init = function() {
-	var self = this, parent = $.proxy(this.parent, this);
+	var parent = $.proxy(this.parent, this);
 	this._fetchCustomerDomains($.Deferred().resolve);
 	this._requestData(function() {
 		parent();
@@ -702,7 +702,7 @@ dashboard.methods.update = function(data) {
 		data.config.targetURL = this._assembleTargetURL();
 	}
 	this.parent(data);
-}
+};
 
 dashboard.methods._assembleTargetURL = function() {
 	var domain = this.config.get("domains")[0];

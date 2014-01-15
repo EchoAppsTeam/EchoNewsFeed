@@ -32,7 +32,7 @@ newsFeed.config = {
 			"appId": undefined
 		},
 		"StreamServer": {
-			"appkey": undefined,
+			"appkey": undefined
 		}
 	},
 	"queries": {},
@@ -86,14 +86,10 @@ newsFeed.config.normalizer = {
 		return result;
 	},
 	"queries": function(obj, component) {
-		if (component.config.content) {
-			var tags = component.config.content.tags;
-			var sources = component.config.content.officialSources;
-			var section = component.config.content.section;
-		}
-		var targetURL = component.config.targetURL;
+		var tags = component.config.content.tags;
+		var sources = component.config.content.officialSources;
+		var section = component.config.content.section;
 		var commonQueryParts = [];
-		var queries = {"all": [], "top": [], "official": []};
 		if (section && section.toLowerCase() !== "local") {
 			commonQueryParts.push("childrenof:" + section);
 		} else {
@@ -113,7 +109,6 @@ newsFeed.config.normalizer = {
 		var nativeSubmissionsMode = component.get("config.replies.displayNativeReplies") || "all";
 		commonQueryParts.push("-state:ModeratorDeleted ");
 		var childrenQueryPart = "children:2 -state:ModeratorDeleted";
-		var excludedSources = [];
 		if (nativeSubmissionsMode === "none") {
 			if (!displayTweets) {
 				childrenQueryPart = "children:0";
@@ -190,7 +185,7 @@ newsFeed.methods._getQueryByActiveTabId = function(activeTabId) {
 	} else {
 		return queries.official;
 	}
-}
+};
 newsFeed.renderers.newsFeed = function(element) {
 	var query = this._getQueryByActiveTabId("official");
 	this.initComponent({
@@ -214,7 +209,7 @@ newsFeed.renderers.newsFeed = function(element) {
 		}, this.config.get("advanced"))
 	});
 	return element;
-}
+};
 
 newsFeed.css =
 	'.{class:postsTabs} ul.nav { width: 100%; margin:0; }' +

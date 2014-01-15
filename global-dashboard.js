@@ -94,7 +94,7 @@ dashboard.methods._fetchCustomerDomains = function(callback) {
 
 dashboard.methods.declareInitialConfig = function() {
 	return {
-		"targetURL": this._assembleTargetURL(),
+		"targetURL": this._assembleTargetURL()
 	};
 };
 
@@ -175,7 +175,6 @@ dashboard.methods._assembleTargetURL = function() {
 };
 
 dashboard.renderers.container = function(element) {
-	var self = this;
 	new Echo.AppServer.Controls.Configurator({
 		"target": element,
 		"cdnBaseURL": this.config.get("cdnBaseURL"),
