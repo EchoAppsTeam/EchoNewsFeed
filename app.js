@@ -98,7 +98,9 @@ newsFeed.config.normalizer = {
 			commonQueryParts.push("childrenof:" + section);
 		} else {
 			var pageURL = $("link[rel='canonical']").attr('href')
-				|| document.location.href.split("#")[0];
+			if(!pageURL || !Echo.Utils.parseURL(pageURL).domain) {
+				pageURL =  document.location.href.split("#")[0];
+			}
 			commonQueryParts.push("childrenof:" + pageURL);
 		}
 		if (sources && typeof sources === "string" && sources.length > 0) {
