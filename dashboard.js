@@ -359,6 +359,16 @@ dashboard.config.ecl = [{
 			"desc": "Specifies tags to filter News Feed items",
 			"data": {"sample": "CNN, politics"}
 		}
+	}, {
+		"component": "Input",
+		"name": "officialSources",
+		"type": "string",
+		"default": "",
+		"config": {
+			"title": "Official sources",
+			"desc": "Specifies sources names to filter News Feed items",
+			"data": {"sample": "Univision, CNN"}
+		}
 	}]
 }, {
 	"component": "Group",
