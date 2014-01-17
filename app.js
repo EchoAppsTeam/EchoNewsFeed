@@ -86,6 +86,9 @@ newsFeed.config.normalizer = {
 		return result;
 	},
 	"queries": function(obj, component) {
+		if (!component.config.content) {
+			component.config.content = {};
+		}
 		var tags = component.config.content.tags;
 		var sources = component.config.content.officialSources;
 		var section = component.config.content.section;
