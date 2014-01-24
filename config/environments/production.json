@@ -4,5 +4,5 @@
 		"id": "echo-apps-newsfeed",
 		"name": "News Feed"
 	},
-	"baseURL": "//cdn.echoenabled.com/apps/echo/news-feed"
+	"baseURL": "//cdn.echoenabled.com/apps/echo/news-feed/v{%=packageVersions.stable%}"
 }
