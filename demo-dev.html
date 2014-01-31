@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Echo News Feed v{%=packageVersions.stable%} Demo</title>
+</head>
+
+<body>
+
+	<script type="text/javascript" src="http://cdn.echoenabled.com/sdk/v3/loader.js"></script>
+
+	<div id="container" style="margin: 0px auto; width: 50%; max-width: 440px;"></div>
+
+	<script type="text/javascript">
+
+		Echo.Loader.initApplication({
+			"script": "{%=baseURL%}/app.js",
+			"component": "Echo.Apps.NewsFeed",
+			"backplane": {
+				"serverBaseURL": "https://api.echoenabled.com/v1",
+				"busName": "echo"
+			},
+			"config": {
+				"target": document.getElementById("container"),
+				"targetURL": "http://news-feed.echoplatform.com/demo",
+				"dependencies": {
+					"Janrain": {"appId": "echo-appserver"},
+					"StreamServer": {"appkey": "echo.echo.streamserver.echo.prod"}
+				}
+			}
+		});
+
+	</script>
+
+</body>
+</html>
