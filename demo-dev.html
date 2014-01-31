@@ -21,10 +21,12 @@
 			},
 			"config": {
 				"target": document.getElementById("container"),
-				"targetURL": "http://news-feed.echoplatform.com/demo",
 				"dependencies": {
 					"Janrain": {"appId": "echo-appserver"},
 					"StreamServer": {"appkey": "echo.echo.streamserver.echo.prod"}
+				},
+				"content": {
+					"section": "http://news-feed.echoplatform.com/demo"
 				}
 			}
 		});
