@@ -24,7 +24,7 @@ dashboard.config = {
 		"config": {
 			"title": "",
 			"labels": {
-				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle for {instanceName}",
+				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle",
 				"packTitle": "Editorial content firehose sources"
 			},
 			"apiBaseURLs": {
@@ -104,7 +104,6 @@ dashboard.methods._prepareECL = function(items) {
 	var instructions = {
 		"targetURL": function(item) {
 			item.config = $.extend({
-				"instanceName": self.config.get("instance.name"),
 				"domains": self.config.get("domains"),
 				"apiToken": self.config.get("dataserverToken"),
 				"valueHandler": function() {
