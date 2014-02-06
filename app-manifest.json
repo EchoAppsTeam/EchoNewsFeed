@@ -1,6 +1,6 @@
 {
-	"id": "echo-apps-newsfeed",
-	"name": "News Feed",
+	"id": "{%=manifest.id%}",
+	"name": "{%=manifest.name%}",
 	"description": "Echo news feed reference app",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
