@@ -27,6 +27,10 @@ newsFeed.config = {
 		"type": "tab",
 		"label": "All Contributors"
 	}],
+	"presentation": {
+		"displayUsernames": false,
+		"displayAvatars": false
+	},
 	"dependencies": {
 		"Janrain": {
 			"appId": undefined
@@ -140,8 +144,6 @@ newsFeed.config.normalizer = {
 	}
 };
 
-
-
 newsFeed.renderers.postsTabs = function(element, extra) {
 	var self = this;
 	var tpls = this.templates.tabs;
@@ -189,6 +191,7 @@ newsFeed.methods._getQueryByActiveTabId = function(activeTabId) {
 		return queries.official;
 	}
 };
+
 newsFeed.renderers.newsFeed = function(element) {
 	var query = this._getQueryByActiveTabId("official");
 	this.initComponent({
@@ -206,6 +209,13 @@ newsFeed.renderers.newsFeed = function(element) {
 			"allPosts": {
 				"queryOverride": query,
 				"displayCounter": false,
+				"plugins": [{
+					"name": "CardUITuner",
+					"presentation": {
+						"displayUsernames": this.config.get("presentation.displayUsernames"),
+						"displayAvatars": this.config.get("presentation.displayAvatars")
+					}
+				}],
 				"visible": true
 			},
 			"dependencies": this.config.get("dependencies")

@@ -18,6 +18,7 @@ module.exports = function(grunt) {
 	var sources = {
 		"js": [
 			"app.js",
+			"plugins/*.js",
 			"dashboard.js",
 			"dashboard/*.js",
 			"data-source.js",

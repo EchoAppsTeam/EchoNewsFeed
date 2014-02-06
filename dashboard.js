@@ -372,6 +372,32 @@ dashboard.config.ecl = [{
 	}]
 }, {
 	"component": "Group",
+	"name": "presentation",
+	"type": "object",
+	"config": {
+		"title": "Presentation"
+	},
+	"items":[{
+		"component": "Checkbox",
+		"name": "displayUsernames",
+		"type": "boolean",
+		"default": false,
+		"config": {
+			"title": "Display Usernames",
+			"desc": "If True, the author`s name will be displayed on each News Feed item"
+		}
+	}, {
+		"component": "Checkbox",
+		"name": "displayAvatars",
+		"type": "boolean",
+		"default": false,
+		"config": {
+			"title": "Display Avatars",
+			"desc": "If True, the author`s avatar will be displayed on each News Feed item"
+		}
+	}]
+}, {
+	"component": "Group",
 	"name": "replies",
 	"type": "object",
 	"config": {
