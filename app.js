@@ -240,7 +240,7 @@ newsFeed.methods._formatChildrenQueryPart = function(displayTweets, nativeSubmis
 		} else {
 			childrenQueryPart += " source:Twitter";
 		}
-		childrenQueryPart += " OR (user.markers:Conversations.TopContributor OR markers:Conversations.TopPost)";
+		childrenQueryPart += " OR markers:Conversations.TopPost";
 	} else if (nativeSubmissionsMode === "all") {
 		if (!displayTweets) {
 			childrenQueryPart += " -source:Twitter";
