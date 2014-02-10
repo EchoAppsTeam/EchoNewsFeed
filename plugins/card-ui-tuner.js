@@ -10,7 +10,7 @@ if (Echo.Plugin.isDefined(plugin)) return;
 plugin.init = function() {
 	// TODO: this "thing" should be removed after conversations v1.4 release!
 	// it was made in this way becose of unavailibility of item header render
-	if (!this.config.get("presentation.displayAvatars")) {
+	if (!this.config.get("presentation.displayAvatars") && this._isArticle()) {
 		plugin.css = 'div.echo-streamserver-controls-stream-item-plugin-CardUIShim .echo-streamserver-controls-stream-item-depth-0 ' +
 			'.echo-streamserver-controls-stream-item-plugin-CardUIShim-header-box { margin-left:0; }';
 	}
