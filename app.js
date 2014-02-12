@@ -20,8 +20,8 @@ newsFeed.config = {
 		"officialSources":""
 	},
 	"presentation": {
-		"displayUsernames": false,
-		"displayAvatars": false
+		"displayUsernames": true,
+		"displayAvatars": true
 	},
 	"replies": {
 		"displayTweets": false,

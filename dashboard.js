@@ -381,19 +381,19 @@ dashboard.config.ecl = [{
 		"component": "Checkbox",
 		"name": "displayUsernames",
 		"type": "boolean",
-		"default": false,
+		"default": true,
 		"config": {
-			"title": "Display Usernames",
-			"desc": "If True, the author`s name will be displayed on each News Feed item"
+			"title": "Display user names for Articles",
+			"desc": "If enabled, a name of an author is displayed for all Articles in a Newsfeed."
 		}
 	}, {
 		"component": "Checkbox",
 		"name": "displayAvatars",
 		"type": "boolean",
-		"default": false,
+		"default": true,
 		"config": {
-			"title": "Display Avatars",
-			"desc": "If True, the author`s avatar will be displayed on each News Feed item"
+			"title": "Display user avatars for Articles",
+			"desc": "If enabled, an avatar of an author is displayed for all Articles in a Newsfeed."
 		}
 	}]
 }, {
