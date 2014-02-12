@@ -23,10 +23,6 @@ dashboard.config = {
 		"required": true,
 		"config": {
 			"title": "",
-			"labels": {
-				"dataserverBundleName": "Echo News Feed Auto-Generated Bundle",
-				"packTitle": "Editorial content firehose sources"
-			},
 			"apiBaseURLs": {
 				"DataServer": "http://nds.echoenabled.com/api/"
 			}
@@ -39,7 +35,8 @@ dashboard.labels = {
 	"baseURL": "Server base URL",
 	"busName": "Bus name",
 	"failedToFetchToken": "Failed to fetch customer dataserver token: {reason}",
-	"password": "Password"
+	"password": "Password",
+	"dataserverBundleName": "Echo {appTitle} Auto-Generated Bundle"
 };
 
 dashboard.templates.main =
@@ -108,6 +105,10 @@ dashboard.methods._prepareECL = function(items) {
 				"apiToken": self.config.get("dataserverToken"),
 				"valueHandler": function() {
 					return self._assembleTargetURL();
+				},
+				"labels": {
+					"dataserverBundleName": self.labels.get("dataserverBundleName", {"appTitle": self.get("data.app.title")}),
+					"packTitle": "Editorial content firehose sources"
 				}
 			}, item.config);
 			return item;
