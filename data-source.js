@@ -84,7 +84,7 @@ addRulesPlugin.component.renderers.newFeed = function(element) {
 					"status": "live",
 					"conf": conf,
 					"outs": self.get("data.outs", []),
-					"rules": ["render-cards"]
+					"rules": ["resolve-urls"]
 				}, {"new": true});
 				self.view.get("errorCreatingFeed").empty();
 				feed.create({
