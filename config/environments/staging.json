@@ -1,8 +1,0 @@
-{
-	"version": 1,
-	"manifest": {
-		"id": "echo-apps-newsfeed-dev",
-		"name": "News Feed (Dev)"
-	},
-	"baseURL": "//echoplatform.com/sandbox/staging/apps/echo/news-feed/v{%=packageVersions.stable%}"
-}
