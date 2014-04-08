@@ -90,11 +90,6 @@ newsFeed.templates.tabs.navItem =
 		'<a href="#{data:tabId}" id="{data:tabId}" data-toggle="{data:type}" >{data:label}</a>' +
 	'</li>';
 
-newsFeed.init = function() {
-	this._removeUserInvalidationFrom(this);
-	this.render();
-	this.ready();
-};
 newsFeed.renderers.postsTabs = function(element, extra) {
 	var self = this;
 	var tpls = this.templates.tabs;
@@ -229,23 +224,6 @@ newsFeed.methods._formatQueries = function() {
 		"top": commonQueryParts.join(" "),
 		"all": commonQueryParts.join(" ")
 	};
-};
-
-// removing "Echo.UserSession.onInvalidate" subscription from an app
-// to avoid double-handling of the same evernt (by Canvas and by the widget itself)
-newsFeed.methods._removeUserInvalidationFrom = function() {
-	var topic = "Echo.UserSession.onInvalidate";
-	$.map(Array.prototype.slice.call(arguments), function(inst) {
-		$.each(inst.subscriptionIDs, function(id) {
-			var obj = $.grep(Echo.Events._subscriptions[topic].global.handlers, function(o) {
-				return o.id === id;
-			})[0];
-			if (obj && obj.id) {
-				Echo.Events.unsubscribe({"handlerId": obj.id});
-				return false;
-			}
-		});
-	});
 };
 
 newsFeed.methods._formatChildrenQueryPart = function(displayTweets, nativeSubmissionsMode) {
