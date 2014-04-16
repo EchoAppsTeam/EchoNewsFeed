@@ -4,7 +4,7 @@
 	"description": "Echo news feed reference app",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
-	"icon": "{%=baseURL%}/images/news-feed.png",
+	"icon": "{%=baseURL%}/images/icon.png",
 	"developer": {
 		"id": "echo",
 		"name": "Echo",
