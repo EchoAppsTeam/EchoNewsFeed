@@ -1,8 +1,11 @@
 {
-	"version": 1,
+	"version": 2,
 	"manifest": {
 		"id": "",
 		"name": ""
 	},
-	"baseURL": ""
+	"baseURLs": {
+		"dev": "",
+		"prod": ""
+	}
 }

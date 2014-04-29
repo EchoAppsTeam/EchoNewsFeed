@@ -1,8 +1,11 @@
 {
-	"version": 1,
+	"version": 2,
 	"manifest": {
 		"id": "echo-apps-newsfeed",
 		"name": "News Feed"
 	},
-	"baseURL": "//cdn.echoenabled.com/apps/echo/news-feed/v{%=packageVersions.stable%}"
+	"baseURLs": {
+		"dev": "//cdn.echoenabled.com/apps/echo/news-feed/v{%=packageVersions.stable%}/dev",
+		"prod": "//cdn.echoenabled.com/apps/echo/news-feed/v{%=packageVersions.stable%}"
+	}
 }

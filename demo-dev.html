@@ -13,7 +13,10 @@
 	<script type="text/javascript">
 
 		Echo.Loader.initApplication({
-			"script": "{%=baseURL%}/app.js",
+			"scripts": {
+				"dev": "{%= baseURLs.dev %}/app.js",
+				"prod": "{%= baseURLs.prod %}/app.js"
+			},
 			"component": "Echo.Apps.NewsFeed",
 			"backplane": {
 				"serverBaseURL": "https://api.echoenabled.com/v1",
@@ -21,12 +24,17 @@
 			},
 			"config": {
 				"target": document.getElementById("container"),
+				"auth": {
+					"allowAnonymousSubmission": true
+				},
 				"dependencies": {
+					"FilePicker": {"apiKey": "AFLWUBllDRwWZl7sQO1V1z"},
+					"embedly": {"apiKey": "5945901611864679a8761b0fcaa56f87"},
 					"Janrain": {"appId": "echo-appserver"},
 					"StreamServer": {"appkey": "echo.echo.streamserver.echo.prod"}
 				},
 				"content": {
-					"section": "http://news-feed.echoplatform.com/demo"
+					"section": "http://news-feed.echoplatform.com/data/official/cms/"
 				}
 			}
 		});

@@ -1,8 +1,11 @@
 {
-	"version": 1,
+	"version": 2,
 	"manifest": {
-		"id": "echo-apps-newsfeed-dev",
-		"name": "News Feed (Dev)"
+		"id": "echo-apps-newsfeed-beta",
+		"name": "News Feed (Beta)"
 	},
-	"baseURL": "//echoplatform.com/sandbox/staging/apps/echo/news-feed/v{%=packageVersions.stable%}"
+	"baseURLs": {
+		"dev": "//echoplatform.com/sandbox/staging/apps/echo/news-feed/v{%=packageVersions.stable%}/dev",
+		"prod": "//echoplatform.com/sandbox/staging/apps/echo/news-feed/v{%=packageVersions.stable%}"
+	}
 }

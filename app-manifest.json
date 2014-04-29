@@ -4,7 +4,7 @@
 	"description": "Echo news feed reference app",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
-	"icon": "{%=baseURL%}/images/icon.png",
+	"icon": "{%=baseURLs.prod%}/images/icon.png",
 	"developer": {
 		"id": "echo",
 		"name": "Echo",
@@ -15,7 +15,7 @@
 	"dashboards": [{
 		"id": "instances",
 		"title": "Instances",
-		"script": "{%=baseURL%}/dashboard.js",
+		"script": "{%=baseURLs.prod%}/dashboard.js",
 		"component": "Echo.Apps.NewsFeed.Dashboard",
 		"type": "instances",
 		"config": {
@@ -32,7 +32,7 @@
 	}, {
 		"id": "content-management",
 		"title": "Content Management",
-		"script": "{%=baseURL%}/global-dashboard.js",
+		"script": "{%=baseURLs.prod%}/global-dashboard.js",
 		"component": "Echo.Apps.NewsFeedContentManagement.Dashboard",
 		"type": ""
 	}, {
@@ -45,6 +45,9 @@
 	}],
 	"client_widget": {
 		"component": "Echo.Apps.NewsFeed",
-		"script": "{%=baseURL%}/app.js"
+		"scripts": {
+			"dev": "{%= baseURLs.dev %}/app.js",
+			"prod": "{%= baseURLs.prod %}/app.js"
+		}
 	}
 }
