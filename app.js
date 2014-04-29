@@ -27,17 +27,16 @@ newsFeed.config = {
 		"displayTweets": false,
 		"displayNativeReplies": "all"
 	},
-	"dependencies": {
-		"Janrain": {
-			"appId": undefined
-		},
-		"StreamServer": {
-			"appkey": undefined
-		}
+	"auth": {
+		"allowAnonymousSubmission": true
 	},
-	"postComposerActivatingTabs": [
-		"all"
-	],
+	"dependencies": {
+		"FilePicker": {"apiKey": undefined},
+		"embedly": {"apiKey": undefined},
+		"Janrain": {"appId": undefined},
+		"StreamServer": {"appkey": undefined}
+	},
+	"postComposerActivatingTabs": [ "all" ],
 	"advanced": {}
 };
 
@@ -67,7 +66,7 @@ newsFeed.vars = {
 newsFeed.dependencies = [{
 	"url": "{config:cdnBaseURL.sdk}/gui.pack.css"
 }, {
-	"url": "//cdn.echoenabled.com/apps/echo/conversations/v1.3/app.js",
+	"url": "//cdn.echoenabled.com/apps/echo/conversations/v2/app.js",
 	"control": "Echo.Apps.Conversations"
 }, {
 	"url": "{config:cdnBaseURL.sdk}/streamserver.pack.js",
