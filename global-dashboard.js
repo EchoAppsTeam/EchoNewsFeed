@@ -11,7 +11,7 @@ dashboard.dependencies = [{
 	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
 	"control": "echo.apps.streamplus.instancedatasource"
 }, {
-	"url": "{%=baseURL%}/data-source.js",
+	"url": "{%=baseURLs.prod%}/data-source.js",
 	"control": "Echo.Apps.MediaGallery.InstanceDataSource"
 }];
 
