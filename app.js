@@ -37,6 +37,7 @@ newsFeed.config = {
 		"StreamServer": {"appkey": undefined}
 	},
 	"postComposerActivatingTabs": [ "all" ],
+	"refreshOnUserInvalidate": false,
 	"advanced": {}
 };
 
