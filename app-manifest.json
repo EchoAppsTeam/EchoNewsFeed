@@ -1,7 +1,7 @@
 {
 	"id": "{%=manifest.id%}",
 	"name": "{%=manifest.name%}",
-	"description": "Echo news feed reference app",
+	"description": "Placed on Section Fronts and Home pages, the Echo News Feed transforms once static headlines into a real-time stream of beautiful and social 'Cards'.",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
 	"icon": "{%=baseURLs.prod%}/images/icon.png",
