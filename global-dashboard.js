@@ -8,16 +8,13 @@ if (Echo.AppServer.Dashboard.isDefined("Echo.Apps.NewsFeedContentManagement.Dash
 var dashboard = Echo.AppServer.Dashboard.manifest("Echo.Apps.NewsFeedContentManagement.Dashboard");
 
 dashboard.dependencies = [{
-	"url": "http://cdn.echoenabled.com/apps/echo/media-gallery/dashboard/data-source.js",
-	"control": "echo.apps.streamplus.instancedatasource"
-}, {
-	"url": "{%=baseURLs.prod%}/data-source.js",
-	"control": "Echo.Apps.MediaGallery.InstanceDataSource"
+	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
+	"control": "Echo.DataServer.Controls.Dashboard.DataSourceGroup"
 }];
 
 dashboard.config = {
 	"ecl": [{
-		"component": "Echo.Apps.NewsFeed.DataSourceGroup",
+		"component": "Echo.DataServer.Controls.Dashboard.DataSourceGroup",
 		"name": "targetURL",
 		"type": "string",
 		"required": true,
@@ -108,7 +105,12 @@ dashboard.methods._prepareECL = function(items) {
 				},
 				"labels": {
 					"dataserverBundleName": self.labels.get("dataserverBundleName", {"appTitle": self.get("data.app.title")}),
-					"packTitle": "Editorial content firehose sources"
+					"title": "Editorial content firehose sources"
+				},
+				"bundle": {
+					"input": {
+						"data": {"rules": ["resolve-urls"]}
+					}
 				}
 			}, item.config);
 			return item;

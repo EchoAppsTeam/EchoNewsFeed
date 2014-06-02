@@ -27,7 +27,7 @@ dashboard.dependencies = [{
 	"control": "Echo.AppServer.Controls.Configurator"
 }, {
 	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
-	"control": "Echo.DataServer.Controls.Pack"
+	"control": "Echo.DataServer.Controls.Bundle"
 }];
 
 dashboard.config = {
