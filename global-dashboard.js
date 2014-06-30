@@ -8,7 +8,7 @@ if (Echo.AppServer.Dashboard.isDefined("Echo.Apps.NewsFeedContentManagement.Dash
 var dashboard = Echo.AppServer.Dashboard.manifest("Echo.Apps.NewsFeedContentManagement.Dashboard");
 
 dashboard.dependencies = [{
-	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
+	"url": "//cdn.echoenabled.com/apps/echo/dataserver/v3/full.pack.js",
 	"control": "Echo.DataServer.Controls.Dashboard.DataSourceGroup"
 }];
 
@@ -60,13 +60,13 @@ dashboard.config.normalizer = {
 };
 
 dashboard.init = function() {
-	var self = this, parent = $.proxy(this.parent, this);
+	var self = this;
 	var deferreds = [$.Deferred(), $.Deferred()];
 	this._fetchCustomerDomains(deferreds[0].resolve);
 	$.when.apply($, deferreds).done(function() {
 			var ecl = self._prepareECL(self.config.get("ecl"));
 			self.config.set("ecl", ecl);
-			parent();
+			self.render.call(self);
 	});
 	this._fetchDataServerToken(deferreds[1].resolve);
 };
@@ -177,12 +177,16 @@ dashboard.methods._assembleTargetURL = function() {
 };
 
 dashboard.renderers.container = function(element) {
+	var self = this;
 	new Echo.AppServer.Controls.Configurator({
 		"target": element,
 		"cdnBaseURL": this.config.get("cdnBaseURL"),
 		"context": this.config.get("context"),
 		"spec": {
 			"items": this.config.get("ecl")
+		},
+		"ready": function() {
+			self.ready.call(self);
 		}
 	});
 	return element;

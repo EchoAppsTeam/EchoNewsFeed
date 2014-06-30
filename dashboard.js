@@ -26,7 +26,7 @@ dashboard.dependencies = [{
 	"url": "{config:cdnBaseURL.apps.appserver}/controls/configurator.js",
 	"control": "Echo.AppServer.Controls.Configurator"
 }, {
-	"url": "{config:cdnBaseURL.apps.dataserver}/full.pack.js",
+	"url": "//cdn.echoenabled.com/apps/echo/dataserver/v3/full.pack.js",
 	"control": "Echo.DataServer.Controls.Bundle"
 }];
 
@@ -371,7 +371,7 @@ dashboard.methods.update = function(data) {
 	if (data && data.config) {
 		data.config.targetURL = this._assembleTargetURL();
 	}
-	this.parent(data);
+	this.parent.apply(this, arguments);
 };
 
 dashboard.methods._assembleTargetURL = function() {
