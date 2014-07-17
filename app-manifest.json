@@ -13,6 +13,11 @@
 		"icon": "http://cdn.echoenabled.com/images/echo.png"
 	},
 	"dashboards": [{
+		"id": "content-management",
+		"title": "Content Management",
+		"script": "{%=baseURLs.prod%}/global-dashboard.js",
+		"component": "Echo.Apps.NewsFeedContentManagement.Dashboard"
+	}, {
 		"id": "instances",
 		"title": "Instances",
 		"script": "{%=baseURLs.prod%}/dashboard.js",
@@ -29,12 +34,6 @@
 			"customer": "{data:customer}",
 			"domains": "{data:apps.streamserver.domains}"
 		}
-	}, {
-		"id": "content-management",
-		"title": "Content Management",
-		"script": "{%=baseURLs.prod%}/global-dashboard.js",
-		"component": "Echo.Apps.NewsFeedContentManagement.Dashboard",
-		"type": ""
 	}, {
 		"id": "docs",
 		"type": "external",
