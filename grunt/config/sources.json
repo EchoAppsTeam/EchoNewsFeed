@@ -1,0 +1,9 @@
+{
+	"js": [
+		"app.js",
+		"plugins/*.js",
+		"dashboard.js",
+		"dashboard/*.js",
+		"global-dashboard.js"
+	]
+}
