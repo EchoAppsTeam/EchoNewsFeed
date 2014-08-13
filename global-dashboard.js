@@ -167,13 +167,14 @@ dashboard.methods._displayError = function(message) {
 	this.ready();
 };
 
+// TODO: fix this method to get targetURL from provisioning
+// details as soon as this app uses endpoints mechanism
 dashboard.methods._assembleTargetURL = function() {
-	var domain = this.config.get("domains")[0];
-	var targetURL = "";
-	if (domain && domain.length) {
-		targetURL =  "http://" + domain + "/data/official/cms/";
-	}
-	return targetURL;
+	var defaultDomain = this.config.get("data.customer.name") + ".echostudio.co";
+	var domains = $.grep(this.config.get("domains"), function(domain) {
+		return domain === defaultDomain;
+	});
+	return "http://" + (domains.length ? domains : this.config.get("domains"))[0] + "/data/official/cms/";
 };
 
 dashboard.renderers.container = function(element) {
