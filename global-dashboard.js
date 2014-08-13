@@ -21,7 +21,7 @@ dashboard.config = {
 		"config": {
 			"title": "",
 			"apiBaseURLs": {
-				"DataServer": "http://nds.echoenabled.com/api/"
+				"DataServer": "{%= apiBaseURLs.DataServer %}/"
 			}
 		}
 	}]
