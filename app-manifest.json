@@ -1,10 +1,10 @@
 {
 	"id": "{%=manifest.id%}",
 	"name": "{%=manifest.name%}",
-	"description": "Placed on Section Fronts and Home pages, the Echo News Feed transforms once static headlines into a real-time stream of beautiful and social 'Cards'.",
+	"description": "Next generation content consumption experience",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
-	"icon": "{%=baseURLs.prod%}/images/icon.png",
+	"icon": "{%=appBaseURLs.prod%}/images/icon.png",
 	"developer": {
 		"id": "echo",
 		"name": "Echo",
@@ -15,19 +15,15 @@
 	"dashboards": [{
 		"id": "content-management",
 		"title": "Content Management",
-		"script": "{%=baseURLs.prod%}/global-dashboard.js",
+		"script": "{%=appBaseURLs.prod%}/global-dashboard.js",
 		"component": "Echo.Apps.NewsFeedContentManagement.Dashboard"
 	}, {
 		"id": "instances",
 		"title": "Instances",
-		"script": "{%=baseURLs.prod%}/dashboard.js",
+		"script": "{%=appBaseURLs.prod%}/dashboard.js",
 		"component": "Echo.Apps.NewsFeed.Dashboard",
 		"type": "instances",
 		"config": {
-			"instanceManager": {
-				"instance": {"useLoadingIcon": true}
-			},
-			"product": "{data:app.info}",
 			"instance": "{data:instance}",
 			"appkeys": "{data:apps.streamserver.appkeys}",
 			"janrainapps": "{data:apps.janrain.apps}",
@@ -45,8 +41,8 @@
 	"client_widget": {
 		"component": "Echo.Apps.NewsFeed",
 		"scripts": {
-			"dev": "{%= baseURLs.dev %}/app.js",
-			"prod": "{%= baseURLs.prod %}/app.js"
+			"dev": "{%= appBaseURLs.dev %}/app.js",
+			"prod": "{%= appBaseURLs.prod %}/app.js"
 		}
 	}
 }

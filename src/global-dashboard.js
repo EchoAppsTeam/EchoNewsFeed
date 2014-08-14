@@ -21,7 +21,7 @@ dashboard.config = {
 		"config": {
 			"title": "",
 			"apiBaseURLs": {
-				"DataServer": "http://nds.echoenabled.com/api/"
+				"DataServer": "{%= apiBaseURLs.DataServer %}/"
 			}
 		}
 	}]
@@ -167,13 +167,13 @@ dashboard.methods._displayError = function(message) {
 	this.ready();
 };
 
+// TODO: fix this method to get targetURL from provisioning
+// details as soon as this app uses endpoints mechanism
 dashboard.methods._assembleTargetURL = function() {
-	var domain = this.config.get("domains")[0];
-	var targetURL = "";
-	if (domain && domain.length) {
-		targetURL =  "http://" + domain + "/data/official/cms/";
-	}
-	return targetURL;
+	var domains = this.config.get("domains");
+	var defaultDomain = this.config.get("data.customer.name") + ".echostudio.co";
+	var domain = ~domains.indexOf(defaultDomain) ? defaultDomain : domains[0];
+	return "http://" + domain + "/data/official/cms/";
 };
 
 dashboard.renderers.container = function(element) {
