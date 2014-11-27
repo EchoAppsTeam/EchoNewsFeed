@@ -1,12 +1,12 @@
 {
 	"version": 3,
 	"manifest": {
-		"id": "echo-apps-newsfeed-dev",
-		"name": "News Feed (Dev)"
+		"id": "echo-apps-newsfeed",
+		"name": "News Feed"
 	},
 	"appBaseURLs": {
-		"dev": "//echoplatform.com/sandbox/staging<%= release.options.versionPath() %>/dev",
-		"prod": "//echoplatform.com/sandbox/staging<%= release.options.versionPath() %>"
+		"dev": "//cdn.echoplatform.com<%= release.options.versionPath() %>/dev",
+		"prod": "//cdn.echoplatform.com<%= release.options.versionPath() %>"
 	},
 	"apiBaseURLs": {
 		"DataServer": "//ds0.ul.js-kit.com/api"
