@@ -1,6 +1,6 @@
 {
-	"id": "{%=manifest.id%}",
-	"name": "{%=manifest.name%}",
+	"id": "echo-apps-newsfeed",
+	"name": "News Feed",
 	"description": "Next generation content consumption experience",
 	"app_version": "{%=packageVersions.stable%}",
 	"cloudapp_protocol_version": "1.0.0",
