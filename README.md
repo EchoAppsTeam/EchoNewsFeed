@@ -2,6 +2,8 @@
 
 [![Built with Grunt](https://cdn.gruntjs.com/builtwith.png)](http://gruntjs.com/)
 
+**This application is deprecated. Do not use it.**
+
 Echo News Feed combines all the features of Echo Conversations App along with site rollup. It aggregates all CMS content, featured comments and official tweets into a real time stream of 'Editorial content'. Users can comment or react to each official editorial card from the News Feed or click through to the respective content permalink.
 
 # Installation instructions
